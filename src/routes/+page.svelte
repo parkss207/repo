@@ -4,15 +4,15 @@
   import { onMount } from 'svelte';
   
   onMount(() => {
-    // Simple fade-in effect on mount
     setTimeout(() => visible = true, 100);
   });
 </script>
 
 <div class="container" class:visible>
-  <!-- Background Glow Effects -->
+  <!-- Background Glow Effects (Adjusted for Light Mode) -->
   <div class="glow glow-1"></div>
   <div class="glow glow-2"></div>
+  <div class="glow glow-3"></div>
 
   <nav>
     <div class="logo">Svelte<span class="highlight">Flow</span></div>
@@ -25,14 +25,14 @@
 
   <main>
     <header class="hero">
-      <div class="badge">Created for performance</div>
+      <div class="badge">Performance Redefined</div>
       <h1>
         Build something <br />
-        <span class="gradient-text">Extraordinary.</span>
+        <span class="gradient-text">Beautiful.</span>
       </h1>
       <p class="subtitle">
-        배포된 SvelteKit 프로젝트가 정상 작동 중입니다.<br>
-        Cloudflare Pages와 함께 무한한 확장성을 경험하세요.
+        화사하고 깔끔한 디자인으로 새롭게 태어났습니다.<br>
+        SvelteKit과 Cloudflare의 강력한 조합을 경험해보세요.
       </p>
       
       <div class="cta-group">
@@ -43,19 +43,19 @@
 
     <section id="features" class="grid">
       <div class="card">
-        <div class="icon">⚡</div>
+        <div class="icon-bg">⚡</div>
         <h3>Lightning Fast</h3>
-        <p>Powered by Vite and Svelte, offering instant HMR and optimized builds.</p>
+        <p>Vite와 Svelte의 힘으로 압도적인 속도와 최적화된 빌드를 제공합니다.</p>
       </div>
       <div class="card">
-        <div class="icon">🌍</div>
-        <h3>Edge Ready</h3>
-        <p>Deployed globally on Cloudflare's massive edge network for low latency.</p>
+        <div class="icon-bg">🎨</div>
+        <h3>Aesthetic Design</h3>
+        <p>밝고 화사한 컬러 팔레트와 글래스모피즘으로 세련된 UI를 선사합니다.</p>
       </div>
       <div class="card">
-        <div class="icon">🎨</div>
-        <h3>Modern Design</h3>
-        <p>Styled with advanced CSS features, glassmorphism, and smooth animations.</p>
+        <div class="icon-bg">🌍</div>
+        <h3>Global Scale</h3>
+        <p>Cloudflare Edge Network를 통해 전 세계 어디서나 빠르게 접속하세요.</p>
       </div>
     </section>
   </main>
@@ -77,31 +77,52 @@
     position: relative;
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    background: transparent;
   }
   .container.visible {
     opacity: 1;
     transform: translateY(0);
   }
 
-  /* Decorative Glows */
+  /* Decorative Glows - Soft Pastels */
   .glow {
     position: absolute;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, rgba(0,0,0,0) 70%);
+    width: 800px;
+    height: 800px;
     border-radius: 50%;
     z-index: -1;
-    filter: blur(80px);
-    opacity: 0.6;
-    animation: drift 10s infinite alternate ease-in-out;
+    filter: blur(100px);
+    opacity: 0.5;
+    animation: drift 15s infinite alternate ease-in-out;
   }
-  .glow-1 { top: -200px; left: -200px; background: radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, rgba(0,0,0,0) 70%); }
-  .glow-2 { bottom: -200px; right: -200px; background: radial-gradient(circle, rgba(236, 72, 153, 0.25) 0%, rgba(0,0,0,0) 70%); animation-delay: -5s; }
+  /* Left Top: Soft Blue/Cyan */
+  .glow-1 { 
+    top: -300px; 
+    left: -200px; 
+    background: radial-gradient(circle, #bae6fd 0%, rgba(255,255,255,0) 70%); 
+  }
+  /* Right Bottom: Soft Pink/Purple */
+  .glow-2 { 
+    bottom: -300px; 
+    right: -200px; 
+    background: radial-gradient(circle, #fbcfe8 0%, rgba(255,255,255,0) 70%); 
+    animation-delay: -5s; 
+  }
+  /* Center Accent: Soft Violet */
+  .glow-3 {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, #ddd6fe 0%, rgba(255,255,255,0) 70%);
+    animation-delay: -10s;
+  }
 
   @keyframes drift {
     0% { transform: translate(0, 0); }
-    100% { transform: translate(30px, 50px); }
+    100% { transform: translate(40px, 60px); }
   }
 
   /* Navigation */
@@ -110,149 +131,189 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 0;
-    margin-bottom: 4rem;
+    margin-bottom: 5rem;
   }
   .logo {
     font-size: 1.5rem;
     font-weight: 800;
     letter-spacing: -0.05em;
+    color: var(--text-color);
   }
-  .highlight { color: #8b5cf6; }
+  .highlight { 
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
   .links { display: flex; gap: 2rem; align-items: center; }
-  .links a { font-weight: 500; opacity: 0.8; transition: opacity 0.2s; font-size: 0.95rem; }
-  .links a:hover { opacity: 1; }
+  .links a { 
+    font-weight: 600; 
+    color: var(--text-secondary);
+    transition: color 0.2s; 
+    font-size: 0.95rem; 
+  }
+  .links a:hover { color: var(--text-color); }
   
   .btn-small {
-    background: rgba(255,255,255,0.1);
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
+    background: white;
+    padding: 0.5rem 1.2rem;
+    border-radius: 50px;
     font-size: 0.85rem;
-    border: 1px solid rgba(255,255,255,0.1);
+    font-weight: 600;
+    color: var(--text-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
     transition: all 0.3s ease;
   }
-  .btn-small:hover { background: rgba(255,255,255,0.2); }
+  .btn-small:hover { 
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+    border-color: #cbd5e1;
+  }
 
   /* Hero Section */
   .hero {
     text-align: center;
-    padding: 4rem 0 6rem;
+    padding: 2rem 0 6rem;
   }
   .badge {
     display: inline-block;
     padding: 0.5rem 1.2rem;
-    background: rgba(139, 92, 246, 0.15);
-    color: #a78bfa;
+    background: #eff6ff;
+    color: #3b82f6;
     border-radius: 50px;
-    border: 1px solid rgba(139, 92, 246, 0.3);
     font-size: 0.85rem;
-    margin-bottom: 1.5rem;
-    font-weight: 600;
+    margin-bottom: 2rem;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
+    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.1);
   }
   h1 {
-    font-size: 4.5rem;
+    font-size: 5rem;
     line-height: 1.1;
     font-weight: 800;
     margin-bottom: 1.5rem;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.04em;
+    color: var(--text-color);
   }
   .gradient-text {
     background: var(--primary-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    padding-bottom: 10px; /* Protect descenders */
   }
   .subtitle {
-    font-size: 1.2rem;
-    color: #94a3b8;
-    max-width: 600px;
-    margin: 0 auto 3rem;
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    max-width: 580px;
+    margin: 0 auto 3.5rem;
+    font-weight: 400;
   }
 
   /* Buttons */
   .cta-group {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
     justify-content: center;
   }
   button {
-    padding: 1rem 2rem;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 8px;
+    padding: 1rem 2.5rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    border-radius: 50px;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     font-family: inherit;
+    border: none;
   }
-  button:active { transform: scale(0.98); }
+  button:active { transform: scale(0.96); }
   
   .btn-primary {
     background: var(--primary-gradient);
-    border: none;
     color: white;
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
   }
   .btn-primary:hover {
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
-    transform: translateY(-2px);
+    box-shadow: 0 15px 35px -5px rgba(99, 102, 241, 0.5);
+    transform: translateY(-3px);
   }
   
   .btn-secondary {
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.2);
-    color: white;
+    background: white;
+    color: var(--text-color);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f1f5f9;
   }
   .btn-secondary:hover {
-    border-color: rgba(255,255,255,0.6);
-    background: rgba(255,255,255,0.05);
+    background: #f8fafc;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
   }
 
   /* Features Grid */
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    margin-top: 4rem;
   }
   .card {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    padding: 2.5rem;
-    border-radius: 16px;
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    padding: 3rem 2rem;
+    border-radius: 24px;
+    box-shadow: var(--glass-shadow);
+    transition: all 0.4s ease;
+    text-align: left;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
   .card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(255,255,255,0.3);
-    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.85);
   }
-  .icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+  
+  .icon-bg {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: #f0f9ff;
+    border-radius: 20px;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
   }
+  
   h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+    color: var(--text-color);
   }
   .card p {
-    color: #94a3b8;
-    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.7;
   }
 
   footer {
     text-align: center;
-    margin-top: auto;
-    padding-top: 4rem;
-    color: #64748b;
+    margin-top: 8rem;
+    padding-bottom: 2rem;
+    color: #94a3b8;
     font-size: 0.9rem;
+    font-weight: 500;
   }
 
   /* Mobile Adjustments */
   @media (max-width: 768px) {
-    h1 { font-size: 3rem; }
-    .hero { padding: 2rem 0 4rem; }
-    .grid { gap: 1rem; }
+    h1 { font-size: 3.2rem; }
+    .hero { padding: 3rem 0; }
+    .grid { gap: 1.5rem; }
     .links { display: none; }
+    .container { padding: 1.5rem; }
   }
 </style>
