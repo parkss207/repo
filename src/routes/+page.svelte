@@ -1,368 +1,169 @@
 <script>
-  let visible = false;
-  
-  import { onMount } from 'svelte';
-  
-  onMount(() => {
-    setTimeout(() => visible = true, 100);
-  });
+	import { onMount } from 'svelte';
+
+	// Product data
+	const products = [
+		{
+			id: 1,
+			name: 'Nike Air Max Red',
+			description: 'Performance Redefined',
+			price: 120.00,
+			image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCqA_6cyZXKBhp1gT1VWD6WXJnikofIErYycstxgtUdYBL8wAnJwr6MoIwCiYryQEo3GBRUlG1_7cuJiUOFL0gAiAUhzzsY1-dx19KwS7_YS6CH62-Mau2TuHHG1_x7G_Swrf-gDIVSpGzy4mkNFnPJfJ8pawoeeXp7p1fyZOvLXTk9VrtwIom9y3rmld3sWdUqymh2eDpGjrJbYInTUfPy8fYEa_Qo-6g-2fVtL98D0UKVLTnqK7pF7NJy_SN3jLKHv-oFeQVXP6E8',
+			liked: true
+		},
+		{
+			id: 2,
+			name: 'Aesthetic Watch S',
+			description: 'Modern Minimalist',
+			price: 89.00,
+			image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBy8Ohvj5e7g89vSQLSvV_JlXqFEaQR39bY4kj5eGb_UNe-A45KtKCIEzBVlcxmrrYKnvnXpoVi4oZLWC0-dUWg2BPWFjyAVYed9hsh_rabFZT4R7xZMgMtFseO9wTwzdJ1wlqob7W5CjjdCv7P8qnHTNdiWu2996wS5iu_GxQxriOjlwNQhlVdyJJmh_rDKjuXdQEDKn3IcBNkodPYQi2UF8YYo2ryIbhFeJvxB_COyBpBetxpZ2Isj6iqCHAOTkq9tsWlr9X4r9SW',
+			liked: false
+		},
+		{
+			id: 3,
+			name: 'Studio Wireless Pro',
+			description: 'Immersive Audio',
+			price: 249.00,
+			image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuADLd3u-_H6AkKSEtvl6vYPke6Wmls-UQz0MEX9b4emgYi2F8Vm_H2VqJ5x2uyy6bS04LAsFmjJYiUDXUW1jtsw-S83emc8XZl_wd3mOkBgIdCcxxWdRLXVqZ5M2JRubY7YUQipNfskuLY9Zc9opBWRacOhsoU2R-Mk4A0W4VmcUVNytf2htmHNjoac1_SYGFy19NG8NcNuT3KFJ4BkkiumgvACXTf3ZceQCLBwKXhmQaeE7ZUgTyImbqnN37xuDW-O7EkehEzZExKQ',
+			liked: false
+		},
+		{
+			id: 4,
+			name: 'Classic Shades',
+			description: 'UV400 Protection',
+			price: 45.00,
+			image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAC01Yp1cB9_z9Kj20M6U45x2LsdUog74RlfFt1Ut9S8ADrR8M8pFwIVWb7j4hNllgNU3xONbKpnhO2BsjpQoiZJcw-Aezx_gzgsgeMpoBJA_3ud9U3TLP0ojwoch9zIjPPwc8CKxnG5C_72HTUUFhgcUvGweJYA-9EI-ohi-hJwIIzVeRFz9sVUW3jzGQv7hpFMPGiyQfU3gbxPZQ6OWbkRiIQ-h-29m3c7wqjaeUNwgx9gd9NVGxzR-5zoWe1GJY15yVMtvecZZxq',
+			liked: false
+		}
+	];
+
+	const categories = ['All', 'Sneakers', 'Watches', 'Jackets', 'Gadgets'];
+	let activeCategory = 'All';
+	let isDarkMode = false;
+
+	// Dark mode toggle function
+	function toggleDarkMode() {
+		isDarkMode = !isDarkMode;
+		if (typeof document !== 'undefined') {
+			document.documentElement.classList.toggle('dark', isDarkMode);
+			localStorage.setItem('darkMode', isDarkMode ? 'dark' : 'light');
+		}
+	}
+
+	// Initialize dark mode from localStorage
+	onMount(() => {
+		const savedMode = localStorage.getItem('darkMode');
+		isDarkMode = savedMode === 'dark';
+		document.documentElement.classList.toggle('dark', isDarkMode);
+	});
 </script>
 
-<div class="container" class:visible>
-  <!-- Background Glow Effects (Adjusted for Light Mode) -->
-  <div class="glow glow-1"></div>
-  <div class="glow glow-2"></div>
-  <div class="glow glow-3"></div>
+<!-- Header -->
+<header class="sticky top-0 z-40 px-6 pt-12 pb-4 bg-background-light/80 dark:bg-background-dark/80 ios-blur">
+	<div class="flex items-center justify-between mb-6">
+		<div>
+			<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Discover</p>
+			<h1 class="text-3xl font-extrabold tracking-tight">
+				<span class="dark:text-white">New</span> <span class="text-gradient">Collection</span>
+			</h1>
+		</div>
+		<div class="flex items-center gap-2">
+			<button 
+				on:click={toggleDarkMode}
+				class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 transition-colors"
+				aria-label="Toggle dark mode"
+			>
+				<span class="material-icons-round text-xl">
+					{isDarkMode ? 'light_mode' : 'dark_mode'}
+				</span>
+			</button>
+			<button class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800">
+				<span class="material-icons-round text-xl">notifications_none</span>
+			</button>
+		</div>
+	</div>
+	<div class="relative">
+		<span class="material-icons-round absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+		<input 
+			class="w-full pl-12 pr-4 py-4 rounded-2xl bg-white dark:bg-slate-800 border-none soft-shadow focus:ring-2 focus:ring-primary/20 dark:placeholder:text-slate-500" 
+			placeholder="Search products..." 
+			type="text"
+		/>
+	</div>
+</header>
 
-  <nav>
-    <div class="logo">Svelte<span class="highlight">Flow</span></div>
-    <div class="links">
-      <a href="#features">Features</a>
-      <a href="#about">About</a>
-      <a href="https://github.com/parkss207/repo" target="_blank" class="btn-small">GitHub</a>
-    </div>
-  </nav>
+<!-- Categories -->
+<section class="mt-4">
+	<div class="flex items-center justify-between px-6 mb-4">
+		<h2 class="text-lg font-bold">Categories</h2>
+		<button class="text-sm font-semibold text-primary">View All</button>
+	</div>
+	<div class="flex overflow-x-auto gap-3 px-6 pb-2">
+		{#each categories as category}
+			<button 
+				class={activeCategory === category 
+					? "flex-none px-6 py-2.5 rounded-full bg-gradient-main text-white font-semibold text-sm" 
+					: "flex-none px-6 py-2.5 rounded-full bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium text-sm soft-shadow"}
+				on:click={() => activeCategory = category}
+			>
+				{category}
+			</button>
+		{/each}
+	</div>
+</section>
 
-  <main>
-    <header class="hero">
-      <div class="badge">Performance Redefined</div>
-      <h1>
-        Build something <br />
-        <span class="gradient-text">Beautiful.</span>
-      </h1>
-      <p class="subtitle">
-        화사하고 깔끔한 디자인으로 새롭게 태어났습니다.<br>
-        SvelteKit과 Cloudflare의 강력한 조합을 경험해보세요.
-      </p>
-      
-      <div class="cta-group">
-        <button class="btn-primary">Get Started</button>
-        <button class="btn-secondary">Learn More</button>
-      </div>
-    </header>
+<!-- Products Grid -->
+<main class="px-6 mt-8">
+	<div class="grid grid-cols-2 gap-4">
+		{#each products as product}
+			<div class="bg-white dark:bg-slate-800 rounded-[2rem] p-3 soft-shadow relative group">
+				<button class="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-white/80 dark:bg-slate-700/80 ios-blur">
+					<span class="material-icons-round text-lg {product.liked ? 'text-pink-500' : 'text-slate-400'}">
+						{product.liked ? 'favorite' : 'favorite_border'}
+					</span>
+				</button>
+				<div class="aspect-square rounded-[1.5rem] bg-slate-50 dark:bg-slate-700 overflow-hidden mb-4">
+					<img 
+						alt={product.name}
+						class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+						src={product.image}
+					/>
+				</div>
+				<div class="px-2 pb-2">
+					<h3 class="text-sm font-bold text-slate-800 dark:text-slate-100 truncate">{product.name}</h3>
+					<p class="text-xs text-slate-500 dark:text-slate-400 mb-2">{product.description}</p>
+					<div class="flex items-center justify-between">
+						<span class="text-lg font-extrabold text-gradient">${product.price.toFixed(2)}</span>
+						<button class="w-8 h-8 rounded-full bg-slate-900 dark:bg-slate-100 flex items-center justify-center text-white dark:text-slate-900">
+							<span class="material-icons-round text-base">add</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		{/each}
+	</div>
+</main>
 
-    <section id="features" class="grid">
-      <div class="card">
-        <div class="icon-bg">⚡</div>
-        <h3>Lightning Fast</h3>
-        <p>Vite와 Svelte의 힘으로 압도적인 속도와 최적화된 빌드를 제공합니다.</p>
-      </div>
-      <div class="card">
-        <div class="icon-bg">🎨</div>
-        <h3>Aesthetic Design</h3>
-        <p>밝고 화사한 컬러 팔레트와 글래스모피즘으로 세련된 UI를 선사합니다.</p>
-      </div>
-      <div class="card">
-        <div class="icon-bg">🌍</div>
-        <h3>Global Scale</h3>
-        <p>Cloudflare Edge Network를 통해 전 세계 어디서나 빠르게 접속하세요.</p>
-      </div>
-    </section>
-  </main>
-  
-  <footer>
-    <p>&copy; 2026 Parkss207. All rights reserved.</p>
-  </footer>
-</div>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-6 left-6 right-6 h-20 bg-white/80 dark:bg-slate-800/80 ios-blur rounded-[2.5rem] soft-shadow z-50 flex items-center justify-around px-4 border border-white/20">
+	<button class="flex flex-col items-center justify-center text-primary">
+		<span class="material-icons-round">home</span>
+		<span class="text-[10px] font-bold mt-1">Home</span>
+	</button>
+	<button class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500">
+		<span class="material-icons-round">shopping_bag</span>
+		<span class="text-[10px] font-bold mt-1">Shop</span>
+	</button>
+	<button class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500">
+		<span class="material-icons-round">favorite_border</span>
+		<span class="text-[10px] font-bold mt-1">Wishlist</span>
+	</button>
+	<button class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500">
+		<span class="material-icons-round">person_outline</span>
+		<span class="text-[10px] font-bold mt-1">Profile</span>
+	</button>
+</nav>
 
-<style>
-  /* Layout & Container */
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-    background: transparent;
-  }
-  .container.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Decorative Glows - Soft Pastels */
-  .glow {
-    position: absolute;
-    width: 800px;
-    height: 800px;
-    border-radius: 50%;
-    z-index: -1;
-    filter: blur(100px);
-    opacity: 0.5;
-    animation: drift 15s infinite alternate ease-in-out;
-  }
-  /* Left Top: Soft Blue/Cyan */
-  .glow-1 { 
-    top: -300px; 
-    left: -200px; 
-    background: radial-gradient(circle, #bae6fd 0%, rgba(255,255,255,0) 70%); 
-  }
-  /* Right Bottom: Soft Pink/Purple */
-  .glow-2 { 
-    bottom: -300px; 
-    right: -200px; 
-    background: radial-gradient(circle, #fbcfe8 0%, rgba(255,255,255,0) 70%); 
-    animation-delay: -5s; 
-  }
-  /* Center Accent: Soft Violet */
-  .glow-3 {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, #ddd6fe 0%, rgba(255,255,255,0) 70%);
-    animation-delay: -10s;
-  }
-
-  @keyframes drift {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(40px, 60px); }
-  }
-
-  /* Navigation */
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 0;
-    margin-bottom: 5rem;
-  }
-  .logo {
-    font-size: 1.5rem;
-    font-weight: 800;
-    letter-spacing: -0.05em;
-    color: var(--text-color);
-  }
-  .highlight { 
-    background: var(--primary-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .links { display: flex; gap: 2rem; align-items: center; }
-  .links a { 
-    font-weight: 600; 
-    color: var(--text-secondary);
-    transition: color 0.2s; 
-    font-size: 0.95rem; 
-  }
-  .links a:hover { color: var(--text-color); }
-  
-  .btn-small {
-    background: white;
-    padding: 0.5rem 1.2rem;
-    border-radius: 50px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-color);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    border: 1px solid #e2e8f0;
-    transition: all 0.3s ease;
-  }
-  .btn-small:hover { 
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
-    border-color: #cbd5e1;
-  }
-
-  /* Hero Section */
-  .hero {
-    text-align: center;
-    padding: 2rem 0 6rem;
-  }
-  .badge {
-    display: inline-block;
-    padding: 0.5rem 1.2rem;
-    background: #eff6ff;
-    color: #3b82f6;
-    border-radius: 50px;
-    font-size: 0.85rem;
-    margin-bottom: 2rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.1);
-  }
-  h1 {
-    font-size: 5rem;
-    line-height: 1.1;
-    font-weight: 800;
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.04em;
-    color: var(--text-color);
-  }
-  .gradient-text {
-    background: var(--primary-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    padding-bottom: 10px; /* Protect descenders */
-  }
-  .subtitle {
-    font-size: 1.25rem;
-    color: var(--text-secondary);
-    max-width: 580px;
-    margin: 0 auto 3.5rem;
-    font-weight: 400;
-  }
-
-  /* Buttons */
-  .cta-group {
-    display: flex;
-    gap: 1.5rem;
-    justify-content: center;
-  }
-  button {
-    padding: 1rem 2.5rem;
-    font-size: 1.05rem;
-    font-weight: 700;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    font-family: inherit;
-    border: none;
-  }
-  button:active { transform: scale(0.96); }
-  
-  .btn-primary {
-    background: var(--primary-gradient);
-    color: white;
-    box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
-  }
-  .btn-primary:hover {
-    box-shadow: 0 15px 35px -5px rgba(99, 102, 241, 0.5);
-    transform: translateY(-3px);
-  }
-  
-  .btn-secondary {
-    background: white;
-    color: var(--text-color);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-    border: 1px solid #f1f5f9;
-  }
-  .btn-secondary:hover {
-    background: #f8fafc;
-    transform: translateY(-3px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-  }
-
-  /* Features Grid */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2.5rem;
-    margin-top: 4rem;
-  }
-  .card {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    padding: 3rem 2rem;
-    border-radius: 24px;
-    box-shadow: var(--glass-shadow);
-    transition: all 0.4s ease;
-    text-align: left;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-  .card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.1);
-    background: rgba(255, 255, 255, 0.85);
-  }
-  
-  .icon-bg {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 60px;
-    height: 60px;
-    background: #f0f9ff;
-    border-radius: 20px;
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
-  }
-  
-  h3 {
-    font-size: 1.4rem;
-    margin-bottom: 0.8rem;
-    font-weight: 700;
-    color: var(--text-color);
-  }
-  .card p {
-    color: var(--text-secondary);
-    font-size: 1rem;
-    line-height: 1.7;
-  }
-
-  footer {
-    text-align: center;
-    margin-top: 8rem;
-    padding-bottom: 2rem;
-    color: #94a3b8;
-    font-size: 0.9rem;
-    font-weight: 500;
-  }
-
-  /* Mobile Adjustments */
-  @media (max-width: 768px) {
-    .container { 
-      padding: 1.5rem 1rem; 
-      overflow-x: hidden;
-    }
-    
-    /* Navigation Stack */
-    nav { 
-      flex-direction: column; 
-      gap: 1.5rem; 
-      margin-bottom: 3rem;
-    }
-    .links { 
-      /* Re-enable links for mobile but stack or simplify them if needed. 
-         For now, let's keep them visible but smaller */
-      display: flex; 
-      gap: 1rem; 
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    
-    /* Hero Section - Compact */
-    .hero { 
-      padding: 1rem 0 3rem; 
-    }
-    h1 { 
-      font-size: 2.8rem; 
-      margin-bottom: 1rem;
-    }
-    .subtitle { 
-      font-size: 1rem; 
-      margin-bottom: 2.5rem;
-      padding: 0 1rem;
-    }
-    
-    /* Buttons */
-    .cta-group { 
-      flex-direction: column; 
-      gap: 1rem; 
-      padding: 0 1rem;
-    }
-    button {
-      width: 100%;
-      padding: 0.9rem 2rem;
-    }
-
-    /* Grid - Single Column */
-    .grid { 
-      grid-template-columns: 1fr; 
-      gap: 1.5rem; 
-      margin-top: 2rem;
-    }
-    .card {
-      padding: 2rem 1.5rem;
-    }
-  }
-</style>
+<!-- Background Decorative Glows -->
+<div class="fixed top-[-10%] right-[-10%] w-[300px] h-[300px] bg-primary/5 rounded-full blur-[80px] -z-10 pointer-events-none"></div>
+<div class="fixed bottom-[10%] left-[-20%] w-[350px] h-[350px] bg-purple-500/5 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
