@@ -310,10 +310,59 @@
 
   /* Mobile Adjustments */
   @media (max-width: 768px) {
-    h1 { font-size: 3.2rem; }
-    .hero { padding: 3rem 0; }
-    .grid { gap: 1.5rem; }
-    .links { display: none; }
-    .container { padding: 1.5rem; }
+    .container { 
+      padding: 1.5rem 1rem; 
+      overflow-x: hidden;
+    }
+    
+    /* Navigation Stack */
+    nav { 
+      flex-direction: column; 
+      gap: 1.5rem; 
+      margin-bottom: 3rem;
+    }
+    .links { 
+      /* Re-enable links for mobile but stack or simplify them if needed. 
+         For now, let's keep them visible but smaller */
+      display: flex; 
+      gap: 1rem; 
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    /* Hero Section - Compact */
+    .hero { 
+      padding: 1rem 0 3rem; 
+    }
+    h1 { 
+      font-size: 2.8rem; 
+      margin-bottom: 1rem;
+    }
+    .subtitle { 
+      font-size: 1rem; 
+      margin-bottom: 2.5rem;
+      padding: 0 1rem;
+    }
+    
+    /* Buttons */
+    .cta-group { 
+      flex-direction: column; 
+      gap: 1rem; 
+      padding: 0 1rem;
+    }
+    button {
+      width: 100%;
+      padding: 0.9rem 2rem;
+    }
+
+    /* Grid - Single Column */
+    .grid { 
+      grid-template-columns: 1fr; 
+      gap: 1.5rem; 
+      margin-top: 2rem;
+    }
+    .card {
+      padding: 2rem 1.5rem;
+    }
   }
 </style>
